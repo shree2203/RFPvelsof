@@ -23,7 +23,7 @@ The RFP System provides a platform for users to create and manage Requests for P
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/shree2203/RFP-System.git
+    git clone git@github.com:shree2203/RFPvelsof.git
     ```
 
 2. Install dependencies:
