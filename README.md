@@ -31,6 +31,10 @@ The RFP System provides a platform for users to create and manage Requests for P
     ```bash
     pip install -r requirements.txt
     ```
+3. Put your email and App password in the settings file to send mail
+   
+       EMAIL_HOST_USER = ' '
+       EMAIL_HOST_PASSWORD = ' '
 
 3. Run migrations:
 
