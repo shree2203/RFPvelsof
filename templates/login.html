@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .center{
+            color: darkgrey;
+            text-align: center;
+            padding: 10px 10px;
+        }
+        a{
+            text-decoration: none;
+            color: #7c8a96;
+        }
+        .login-container {
+            max-width: 400px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input {
+            padding: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .messages {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            color: red;
+        }
+
+        .messages li {
+            color: #d9534f;
+        }
+
+    </style>
+</head>
+<body>
+<div class="login-container">
+    <h2>Login</h2>
+
+    {% if messages %}
+        <div class="messages">
+            {{ messages }}
+        </div>
+    {% endif %}
+
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+
+        <label for="{{ form.email.id_for_label }}">Email:</label>
+        {{ form.email }}
+        {{ form.email.errors }}
+
+        <label for="{{ form.password.id_for_label }}">Password:</label>
+        {{ form.password }}
+        {{ form.password.errors }}
+
+        <button type="submit">Login</button>
+    </form>
+
+     <div class="center">
+         <a href="{% url 'vendor_registration' %}"> Register as Vendor</a>
+     </div>
+    <div class="center">
+         <a href="{% url 'admin_registration' %}"> Register as Admin</a>
+     </div>
+</div>
+</body>
+</html>
