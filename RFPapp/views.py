@@ -26,9 +26,8 @@ def edit_vendor_view(request, vendor_id):
         phnno = request.POST.get('phnno')
         categories = request.POST.get('Categories')
         try:
-            # Retrieve existing user and vendor details
-            user = CustomUser.objects.get(id=vendor_id)
-            vendor_details = VendorDetails.objects.get(user=user)
+            vendor_details = VendorDetails.objects.get(id=vendor_id)
+            user = vendor_details.user
 
             # Update user fields
             user.email = email
