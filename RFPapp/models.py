@@ -52,6 +52,23 @@ class VendorDetails(models.Model):
         default='1'
     )
 
+    def __str__(self):
+        return self.user.first_name
+
+class RFP(models.Model):
+    OPEN = 1
+    CLOSED = 0
+    vendor = models.ForeignKey('VendorDetails', on_delete=models.CASCADE)
+    rfp_no = models.CharField(max_length=20)
+    rfp_title = models.CharField(max_length=255)
+    rfp_last_date = models.DateField()
+    min_amount = models.IntegerField()
+    max_amount = models.IntegerField()
+    status = models.IntegerField(choices=[(OPEN, 'Open'), (CLOSED, 'Closed')], default=OPEN)
+
+    def __str__(self):
+        return f"{self.rfp_no} - {self.rfp_title}"
+
 
 class Approval(models.Model):
     vendor = models.OneToOneField(VendorDetails, on_delete=models.CASCADE)

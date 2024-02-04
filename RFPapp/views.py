@@ -1,10 +1,10 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from RFPvelsof import settings
-from .forms import LoginForm
-from .models import VendorDetails, Approval, CustomUser
+from .forms import LoginForm, RFPForm
+from .models import VendorDetails, Approval, CustomUser, RFP
 from django.core.mail import send_mail
 
 
@@ -176,3 +176,52 @@ def approve_vendor(request, vendor_id):
     prompt = f"Approval Email has been sent to {vendor.user.first_name}"
     vendors = VendorDetails.objects.exclude(pk=vendor_id).exclude(user__is_approved_by_admin=True)
     return render(request, 'dashboard.html', {'prompt': prompt, 'vendors': vendors})
+
+
+def rfp_list_view(request):
+    rfps = RFP.objects.all()
+    return render(request, 'rfp_list.html', {'rfps': rfps})
+
+
+def close_rfp(request, rfp_id):
+    rfp = get_object_or_404(RFP, pk=rfp_id)
+    if rfp.status == 1:
+        # Update the RFP status to 'Closed'
+        rfp.status = 0
+        rfp.save()
+    return redirect('rfp_list')
+
+
+def add_rfp(request):
+    if request.method == 'POST':
+        form = RFPForm(request.POST)
+        if form.is_valid():
+            rfp = form.save(commit=False)
+            rfp.status = 1  # Set initial status
+            rfp.save()
+            # Trigger email to selected vendors (you need to implement this part)
+            msg = f'Thanks for showing interest on our RFP System. Your account has been approved'
+            sub = 'Registration Approved'
+            # email = vendor.user.email
+            # send_email(email, msg, sub)
+            # prompt = f"Approval Email has been sent to {vendor.user.first_name}"
+            return redirect('rfp_list')
+    else:
+        form = RFPForm()
+
+    return render(request, 'add_rfp.html', {'form': form})
+
+
+def select_category(request):
+
+    if request.method == 'POST':
+        category_id = request.POST.get('category')
+        vendors = VendorDetails.objects.filter(categories=category_id)
+        form = RFPForm(initial={'vendors': vendors})
+    else:
+        form = RFPForm()
+
+    # Provide a way to choose the category
+    categories = VendorDetails.CATEGORY_CHOICE
+
+    return render(request, 'select_category.html', {'form': form, 'categories': categories})

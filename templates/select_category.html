@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <!-- Import bootstrap cdn -->
+    <link rel="stylesheet" href=
+            "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity=
+                  "sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z"
+          crossorigin="anonymous">
+    <!-- Import jquery cdn -->
+    <script src=
+                    "https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity=
+                    "sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous">
+    </script>
+    <!-- Import popper.js cdn -->
+    <script src=
+                    "https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity=
+                    "sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous">
+    </script>
+    <!-- Import javascript cdn -->
+    <script src=
+                    "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity=
+                    "sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous">
+    </script>
+    <!-- CSS stylesheet -->
+    <style type="text/css">
+        html,
+        body {
+            height: 100%;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        h2 {
+            color: white;
+        }
+
+        #green {
+            height: 100%;
+            background: #1c1b1b;
+            text-align: center;
+            color: #f6f3f3;
+            padding: 15px;
+        }
+
+        #green a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .prompt {
+            text-align: center;
+            color: limegreen;
+            font-weight: bold;
+            animation: fadeOut 5s ease-in-out forwards;
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- h-100 takes the full height of the body-->
+<div class="container-fluid h-100">
+    <div class="row h-100">
+        <div class="col-2" id="green">
+            <h2>Velocity</h2>
+            <a href="/dashboard/">Dashboard</a><br/>
+            <br/>
+            <a href="/dashboard/vendors">Vendors</a><br/>
+            <br/>
+            <a href="/dashboard/rfp-list/">RFP Lists</a><br/>
+            <br/>
+            <a href="#">User Management</a><br/>
+            <br/>
+            <a href="#">Categories</a><br/>
+        </div>
+        <div class="col-10" style="padding: 0;">
+            <!-- Top navbar -->
+            <nav class="navbar navbar-expand-sm shadow bg-light shadow p-3 mb-5 bg-white rounded">
+
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            Welcome {{ request.user.first_name }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">
+                            Log Out
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div class="TableHeader">
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <h2>Select Category</h2>
+                                        <form method="post" action="{% url 'add_rfp' %}">
+                                            {% csrf_token %}
+                                            <label for="category">Select Category:</label>
+                                            <select name="category" id="category">
+                                                {% for category_value, category_label in categories %}
+                                                    <option value="{{ category_label }}">{{ category_value }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <button type="submit" class="btn btn-outline-success">Next</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
